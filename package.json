@@ -1,0 +1,28 @@
+{
+  "name": "t3-library-api",
+  "version": "0.0.1",
+  "description": "Group project for COMP229 Web Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ianemv/team3-project.git"
+  },
+  "keywords": [
+    "library",
+    "nodejs",
+    "express",
+    "mongo"
+  ],
+  "author": "Sandeep,Ian,Czar,George,Alex,Collan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianemv/team3-project/issues"
+  },
+  "homepage": "https://github.com/ianemv/team3-project#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
