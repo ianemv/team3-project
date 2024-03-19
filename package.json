@@ -1,9 +1,11 @@
 {
   "name": "t3-library-api",
   "version": "0.0.1",
+  "type": "module",
   "description": "Group project for COMP229 Web Application",
   "main": "index.js",
   "scripts": {
+    "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
