@@ -1,22 +1,12 @@
-import config from "./config/config.js";
-import app from "./express.js";
-import mongoose from 'mongoose';
-mongoose.Promise = global.Promise;
-mongoose.connect(config.mongoUri, 
-	{ 
-		// useCreateIndex: true,
-		useUnifiedTopology: true,
-		useNewUrlParser: true, 
-	});
-mongoose.connection.on("error", () => {
-	throw new Error(`unable to connect to database: ${config.mongoUri}`);
-});
+import app from './app/express.js'
+const PORT = 3000;
 app.get("/", (req, res) => {
-	res.json({message: "Welcome"});
-});
-app.listen(config.port, (err) => {
-	if (err) {
-		console.log(err);
-	}
-	console.info("Server started on port %s.", config.port);
-});
+    res.json({message: "Welcome to app"});
+})
+
+app.listen(PORT, (err) => {
+    if (err) {
+        return console.error(err);
+    }
+    console.info(`Server started on port ${PORT}`);
+})
