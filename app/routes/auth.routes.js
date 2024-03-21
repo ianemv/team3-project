@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.route('/auth/signin').get(authCtrl.signin)
 //TODO
-// router.route('/auth/signup').post(authCtrl.signup)
-// router.route('/auth/signout').get(authCtrl.signout)
+router.route('/auth/signup').post(authCtrl.signup)
+router.route('/auth/signout').get(authCtrl.signout)
 
 export default router
