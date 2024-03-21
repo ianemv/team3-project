@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
 const UserSchema = new mongoose.Schema({
+	user_id: {
+		type: String
+	},
 	name: {
-		type: String,
-		trim: true,
-		required: 'Name is required'
+		type: String
 	},
 	email: {
 		type: String,
@@ -12,6 +13,12 @@ const UserSchema = new mongoose.Schema({
 		unique: 'Email already exists',
 		match: [/.+\@.+\..+/, 'Please fill a valid email address'],
 		required: 'Email is required'
+	},
+	phone_number: {
+		type: String
+	},
+	address: {
+		type: String
 	},
 	created: {
 		type: Date,
@@ -64,4 +71,4 @@ UserSchema.methods = {
 		return Math.round((new Date().valueOf() * Math.random())) + '';
 	}
 };
-export default mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema, 'Users');
