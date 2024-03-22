@@ -37,6 +37,6 @@ authorSchema.pre('save', function (next) {
     next();
 });
 
-const Author = mongoose.model('Author', authorSchema);
+const Author = mongoose.model('Author', authorSchema, 'Authors');
 
 export default Author
