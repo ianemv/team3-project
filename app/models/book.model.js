@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 // Define Book schema
 const bookSchema = new mongoose.Schema({
-    book_id: {
+    bookId: {
         type: String,
-        required: true
+        auto: true,
     },
     title: {
         type: String,
@@ -33,21 +33,29 @@ const bookSchema = new mongoose.Schema({
 	
 });
 
-bookSchema.pre('save', function (next) {
-    if (!this.isNew) {
-        return next();
-    }
+bookSchema.pre('save', async function (next) {
 
-    const generateBookId = () => {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let book_id = '';
-        for (let i = 0; i < 8; i++) {
-            book_id += chars.charAt(Math.floor(Math.random() * chars.length));
+    if (!this.bookId) {
+        const generateBookId = () => {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let bookId = '';
+            for (let i = 0; i < 8; i++) {
+                bookId += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return bookId;
+        };
+        let newBookId;
+        let isUnique = false;
+        while (!isUnique) {
+            newBookId = generateBookId();
+            console.log(newBookId);
+            const existingBook = await this.constructor.findOne({ bookId: generateBookId()})
+            if (!existingBook) {
+                isUnique = true;
+            }
         }
-        return book_id;
-    };
-
-    this.book_id = generateBookId();
+        this.bookId = newBookId;
+    }
     next();
 });
 

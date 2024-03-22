@@ -3,8 +3,8 @@ import Book from '../models/book.model.js';
 const createBook = async (req, res) => {
     try {
 		console.log(req.body);
-        const { bio, birthDate, firstName, lastName } = req.body;
-        const book = new Book({ firstName, lastName, bio, birthDate });
+        const { title, author, ISBN, genre, publication_year, quantity_available } = req.body;
+        const book = new Book({ title, author, ISBN, genre, publication_year, quantity_available });
         const savedBook = await book.save();
         res.status(201).json(savedBook);
     } catch (error) {
@@ -38,10 +38,10 @@ const getBookById = async (req, res) => {
 // Update book by ID
 const updateBook = async (req, res) => {
     try {
-        const { name, bio, birthDate } = req.body;
+        // const { name, bio, birthDate } = req.body;
         const book = await Book.findByIdAndUpdate(
             req.params.id,
-            { name, bio, birthDate },
+           req.body,
             { new: true }
         );
         if (!book) {
