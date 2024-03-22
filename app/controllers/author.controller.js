@@ -1,19 +1,20 @@
 import Author from '../models/author.model.js';
 // Create a new author
-const createAuthor = async (req, res) => {
+const createAuthor = async (req, res, next) => {
     try {
 		console.log(req.body);
         const { bio, birthDate, firstName, lastName } = req.body;
         const author = new Author({ firstName, lastName, bio, birthDate });
         const savedAuthor = await author.save();
         res.status(201).json(savedAuthor);
+		next();
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
 // Get all authors
-const getAllAuthors = async (req, res) => {
+const getAllAuthors = async (req, res, next) => {
     try {
         const authors = await Author.find();
         res.json(authors);
@@ -23,13 +24,14 @@ const getAllAuthors = async (req, res) => {
 };
 
 // Get author by ID
-const getAuthorById = async (req, res) => {
+const getAuthorById = async (req, res, next) => {
     try {
         const author = await Author.findById(req.params.id);
         if (!author) {
             return res.status(404).json({ message: 'Author not found' });
         }
         res.json(author);
+		next();
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -48,6 +50,7 @@ const updateAuthor = async (req, res) => {
             return res.status(404).json({ message: 'Author not found' });
         }
         res.json(author);
+		next();
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -61,6 +64,7 @@ const deleteAuthor = async (req, res) => {
             return res.status(404).json({ message: 'Author not found' });
         }
         res.json({ message: 'Author deleted successfully' });
+		next();
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
