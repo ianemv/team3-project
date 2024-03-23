@@ -14,6 +14,6 @@ router.use('/api/users', userRouter);
 router.use('/api/authors', authorRouter);
 router.use('/api/books', bookRouter);
 router.use('/api/borrowings', borrowingRouter);
-router.use('/api/inquiries', borrowingRouter);
+router.use('/api/inquiries', inquiryRouter);
 
 export default router;
