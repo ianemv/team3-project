@@ -1,4 +1,4 @@
-import Inquiry from '../models/inq.model.js';
+import Inquiry from '../models/inquiry.model.js';
 
 export const createInquiry = async (req, res) => {
   try {
@@ -56,3 +56,5 @@ export const deleteInquiry = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export default { createInquiry, getInquiries, getInquiryById, updateInquiry, deleteInquiry};

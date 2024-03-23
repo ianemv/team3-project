@@ -5,9 +5,9 @@ import inquiryController from '../controllers/inquiry.controller.js';
 const router = express.Router();
 
 router.route('/').post(inquiryController.createInquiry);
-router.get('/',authCtrl.requireSignin, authCtrl.getInquiries);
-router.get('/:id',authCtrl.requireSignin, authCtrl.getInquiryById);
-router.put('/:id',authCtrl.requireSignin, authCtrl.updateInquiry);
-router.delete('/:id',authCtrl.requireSignin, authCtrl.deleteInquiry);
+router.get('/',authCtrl.requireSignin, inquiryController.getInquiries);
+router.get('/:id',authCtrl.requireSignin, inquiryController.getInquiryById);
+router.put('/:id',authCtrl.requireSignin, inquiryController.updateInquiry);
+router.delete('/:id',authCtrl.requireSignin, inquiryController.deleteInquiry);
 
 export default router;
