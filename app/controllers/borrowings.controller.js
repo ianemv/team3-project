@@ -5,7 +5,7 @@ import Borrowing from '../models/borrowings.model.js';
 export const getAllBorrowings = async (req, res) => {
     try {
         const borrowings = await Borrowing.find().populate('borrowerId').populate('bookId');
-        res.status(200).json({ success: true, borrowings });
+        res.status(200).json(borrowings);
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
@@ -19,6 +19,9 @@ export const borrowBook = async (req, res) => {
 
         // Create a new borrowing record
         const borrowing = await Borrowing.create({ borrowerId, bookId });
+
+		// update book status here
+
 
         res.status(201).json({ success: true, borrowing });
     } catch (error) {
