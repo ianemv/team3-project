@@ -65,5 +65,53 @@ const deleteBook = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+// Search books by genre
+const searchBooksByGenre = async (req, res) => {
+    try {
+        const { genre } = req.query;
+        const books = await Book.find({ genre: genre });
+        res.json(books);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
-export default { createBook, getAllBooks, getBookById, updateBook, deleteBook };
+// Search books by keyword
+const searchBooksByKeyword = async (req, res) => {
+    try {
+        const { keyword } = req.query;
+        const books = await Book.find({
+            $or: [
+                { title: { $regex: keyword, $options: 'i' } },
+                { author: { $regex: keyword, $options: 'i' } },
+                { genre: { $regex: keyword, $options: 'i' } }
+            ]
+        });
+        res.json(books);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Get random books
+const getRandomBooks = async (req, res) => {
+    try {
+        // Logic to fetch random books (e.g., select a random subset from the database)
+        const randomBooks = await Book.aggregate([{ $sample: { size: 5 } }]);
+        res.json(randomBooks);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+export default { 
+    createBook, 
+    getAllBooks, 
+    getBookById, 
+    updateBook,
+    deleteBook,
+    searchBooksByGenre,
+    searchBooksByKeyword,
+    getRandomBooks
+};

@@ -8,6 +8,9 @@ router.get('/', authCtrl.requireSignin, bookController.getAllBooks);
 router.get('/:id', authCtrl.requireSignin, bookController.getBookById);
 router.put('/:id', authCtrl.requireSignin, bookController.updateBook);
 router.delete('/:id', authCtrl.requireSignin, bookController.deleteBook);
+// New routes for trending and random books
+router.get('/search', bookController.searchBooksByKeyword);
+router.get('/random', bookController.getRandomBooks);
 
 
 export default router;
