@@ -8,9 +8,13 @@ router.get('/', authCtrl.requireSignin, bookController.getAllBooks);
 router.get('/:id', authCtrl.requireSignin, bookController.getBookById);
 router.put('/:id', authCtrl.requireSignin, bookController.updateBook);
 router.delete('/:id', authCtrl.requireSignin, bookController.deleteBook);
-// New routes for trending and random books
-router.get('/search', bookController.searchBooksByKeyword);
-router.get('/random', bookController.getRandomBooks);
+// New routes for searching and random books
+const additionalRouter = express.Router(); // Create a separate router
+additionalRouter.get('/search', bookController.searchBooksByKeyword);
+additionalRouter.get('/random', bookController.getRandomBooks);
+
+// Mount the additional router at '/additional' base path
+router.use('/additional', additionalRouter);
 
 
 export default router;
