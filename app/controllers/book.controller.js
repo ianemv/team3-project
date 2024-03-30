@@ -82,11 +82,12 @@ const searchBooksByKeyword = async (req, res) => {
         const { keyword } = req.query;
         const books = await Book.find({
             $or: [
-                { title: { $regex: keyword, $options: 'i' } },
-                { author: { $regex: keyword, $options: 'i' } },
-                { genre: { $regex: keyword, $options: 'i' } }
+                { title: { $regex: keyword.toString(), $options: 'i' } },
+                { author: { $regex: keyword.toString(), $options: 'i' } },
+                { genre: { $regex: keyword.toString(), $options: 'i' } }
             ]
         });
+        
         res.json(books);
     } catch (error) {
         res.status(500).json({ message: error.message });
