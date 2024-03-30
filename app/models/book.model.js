@@ -30,6 +30,12 @@ const bookSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
+    available: {
+        type: Boolean,
+    },
+    status: {
+        type: String
+    }
 	
 });
 
@@ -48,7 +54,6 @@ bookSchema.pre('save', async function (next) {
         let isUnique = false;
         while (!isUnique) {
             newBookId = generateBookId();
-            console.log(newBookId);
             const existingBook = await this.constructor.findOne({ bookId: generateBookId()})
             if (!existingBook) {
                 isUnique = true;

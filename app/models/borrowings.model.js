@@ -1,15 +1,15 @@
-// borrowingModel.js
 import mongoose from 'mongoose';
+import Book from './book.model.js'; 
 
 const borrowingSchema = new mongoose.Schema({
     borrowerId: {
         type: mongoose.Schema.Types.ObjectId,
-        unique: true,
+        ref: 'Users',
         required: true
     },
     bookId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Book',
+        ref: 'Books',
         required: true
     },
     borrowDate: {
@@ -22,7 +22,10 @@ const borrowingSchema = new mongoose.Schema({
             return new Date(Date.now() + 10 * 24 * 60 * 60 * 1000); // Set due date to 10 days from current date
         }
     },
-    returnDate: Date,
+    returnDate: {
+        type: Date,
+        default: null // Default value for returnDate
+    },
     returned: {
         type: Boolean,
         default: false
