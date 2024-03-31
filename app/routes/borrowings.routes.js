@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get('/', getAllBorrowings);
 router.post('/borrow', borrowBook);
-router.put('/return/:borrowingId', returnBook);
+router.put('/return', returnBook);
 
 export default router;
