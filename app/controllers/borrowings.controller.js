@@ -34,15 +34,16 @@ export const borrowBook = async (req, res) => {
 
 export const returnBook = async (req, res) => {
     try {
-        const { bookId } = req.params;
+        
 
+        const { bookId } = req.body;
         // Find the latest borrowing record for the specified book ID
         const borrowing = await Borrowing.findOne({ bookId }).sort({ borrowDate: -1 });
 
         if (!borrowing || borrowing.returned) {
             return res.status(404).json({ success: false, message: 'No active borrowing record found for the book' });
         }
-        
+
         // Update borrowing record with returnDate and returned status
         borrowing.returnDate = Date.now();
         borrowing.returned = true;
