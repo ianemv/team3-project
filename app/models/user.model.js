@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
 	},
 	updated: Date,
 	salt: String,
+    role: {
+        type: String,
+        default: "user"
+    }
 });
 
 UserSchema

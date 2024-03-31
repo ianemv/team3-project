@@ -1,4 +1,5 @@
 import Book from '../models/book.model.js';
+import Borrowing from '../models/borrowings.model.js';
 // Create a new book
 const createBook = async (req, res) => {
     try {
@@ -25,15 +26,29 @@ const getAllBooks = async (req, res) => {
 // Get book by ID
 const getBookById = async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id);
+        const bookId = req.params.id;
+
+        // Find the book by ID
+        const book = await Book.findById(bookId);
         if (!book) {
             return res.status(404).json({ message: 'Book not found' });
         }
-        res.json(book);
+
+        // Find the latest borrowing record for the book
+        const latestBorrowing = await Borrowing.findOne({ bookId }).sort({ borrowDate: -1 });
+
+        // Include the latest borrowing record in the response
+        const bookWithLatestBorrowing = {
+            ...book.toObject(), // Convert book object to plain JavaScript object
+            latestBorrowing: latestBorrowing || null // Add latest borrowing or null if not found
+        };
+
+        res.json(bookWithLatestBorrowing);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Update book by ID
 const updateBook = async (req, res) => {

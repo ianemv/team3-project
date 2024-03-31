@@ -34,22 +34,29 @@ export const borrowBook = async (req, res) => {
 
 export const returnBook = async (req, res) => {
     try {
-        const { borrowingId } = req.params;
+        const { bookId } = req.params;
 
-        // Find borrowing record by ID and update returnDate and returned status
-        const borrowing = await Borrowing.findByIdAndUpdate(
-            borrowingId,
-            { returnDate: Date.now(), returned: true },
-            { new: true }
-        );
+        // Find the latest borrowing record for the specified book ID
+        const borrowing = await Borrowing.findOne({ bookId }).sort({ borrowDate: -1 });
 
         if (!borrowing || borrowing.returned) {
-            return res.status(404).json({ success: false, message: 'Borrowing record not found or already returned' });
+            return res.status(404).json({ success: false, message: 'No active borrowing record found for the book' });
         }
+        
+        // Update borrowing record with returnDate and returned status
+        borrowing.returnDate = Date.now();
+        borrowing.returned = true;
+        await borrowing.save();
+
         // Update book status to "available"
-        let book = await Book.findById(borrowing.bookId);
-        book = extend(book, { status: "available", available: true })
-        await book.save();
+        let book = await Book.findById(bookId);
+        if (book) {
+            book.status = "available";
+            book.available = true;
+            await book.save();
+        } else {
+            return res.status(404).json({ success: false, message: 'Book not found' });
+        }
 
         res.status(200).json({ success: true, borrowing, book });
     } catch (error) {
