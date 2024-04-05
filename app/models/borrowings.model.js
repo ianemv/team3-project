@@ -1,15 +1,14 @@
 import mongoose from 'mongoose';
-import Book from './book.model.js'; 
 
 const borrowingSchema = new mongoose.Schema({
     borrowerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
+        ref: 'User',
         required: true
     },
     bookId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Books',
+        ref: 'Book',
         required: true
     },
     borrowDate: {
