@@ -84,12 +84,13 @@ const deleteBook = async (req, res) => {
 const searchBooksByGenre = async (req, res) => {
     try {
         const { genre } = req.query;
-        const books = await Book.find({ genre: genre });
+        const books = await Book.find({ genre: { $regex: new RegExp(genre, 'i') } });
         res.json(books);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Search books by keyword
 const searchBooksByKeyword = async (req, res) => {
