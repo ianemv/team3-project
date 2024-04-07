@@ -16,13 +16,13 @@ try {
 }
 const list = async (req, res) => { 
 try {
-let users = await User.find().select('name email updated created') 
-res.json(users)
-} catch (err) {
-return res.status(400).json({
-error: errorHandler.getErrorMessage(err) 
-})
-} 
+	let users = await User.find().select('name email updated created') 
+		res.json(users)
+	} catch (err) {
+		return res.status(400).json({
+		error: errorHandler.getErrorMessage(err) 
+	})
+	} 
 }
 const userByID = async (req, res, next, id) => { 
 try {
@@ -60,16 +60,16 @@ error: errorHandler.getErrorMessage(err)
 } 
 }
 const remove = async (req, res) => { 
-try {
-let user = req.profile
-let deletedUser = await user.deleteOne() 
-deletedUser.hashed_password = undefined 
-deletedUser.salt = undefined
-res.json(deletedUser) 
-} catch (err) {
-return res.status(400).json({
-error: errorHandler.getErrorMessage(err) 
-})
-} 
+	try {
+		let user = req.profile
+		let deletedUser = await user.deleteOne() 
+		deletedUser.hashed_password = undefined 
+		deletedUser.salt = undefined
+	res.json(deletedUser) 
+	} catch (err) {
+		return res.status(400).json({
+		error: errorHandler.getErrorMessage(err) 
+	})
+	} 
 }
 export default { create, userByID, read, list, remove, update }
