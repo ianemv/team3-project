@@ -32,12 +32,15 @@ const bookSchema = new mongoose.Schema({
     },
     available: {
         type: Boolean,
+        default: true
     },
     status: {
-        type: String
+        type: String,
+        default: "available"
     }   ,
     bookImageUrl: {
-        type: String
+        type: String,
+        default: ""
     }
 	
 });

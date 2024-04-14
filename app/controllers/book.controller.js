@@ -4,8 +4,8 @@ import Borrowing from '../models/borrowings.model.js';
 const createBook = async (req, res) => {
     try {
 		console.log(req.body);
-        const { title, author, ISBN, genre, publication_year, quantity_available } = req.body;
-        const book = new Book({ title, author, ISBN, genre, publication_year, quantity_available });
+        const { title, author, ISBN, genre, publication_year, quantity_available, status, available, bookImageUrl } = req.body;
+        const book = new Book({ title, author, ISBN, genre, publication_year, quantity_available, status, available, bookImageUrl });
         const savedBook = await book.save();
         res.status(201).json(savedBook);
     } catch (error) {
