@@ -12,7 +12,7 @@ const signin = async (req, res) => {
     if (!user.authenticate(req.body.password)) {
     return res.status(401).send({ error: "Email and password don't match." })
     }
-    const token = jwt.sign({ _id: user._id }, config.jwtSecret) 
+    const token = jwt.sign({ _id: user._id, role: user.role }, config.jwtSecret) 
     res.cookie('t', token, { expire: new Date() + 9999 }) 
     return res.json({
     token, 
@@ -40,15 +40,20 @@ const requireSignin = expressjwt({
     userProperty: 'auth'
     })
     
-const hasAuthorization = (req, res, next) => { 
+const hasAuthorization = (req, res, next) => {
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized: No token provided' });
+    }
+    const decoded = jwt.verify(token, config.jwtSecret);
     const authorized = (req.profile && req.auth
-    && req.profile._id == req.auth._id ) || req.profile.role === 'admin'
+    && req.profile._id == req.auth._id ) || decoded.role === 'admin'
     if (!(authorized)) {
     return res.status('403').json({ 
     error: "User is not authorized"
     }) 
     } 
     next()
-    }
+}
         
 export default { signin, signout, requireSignin, hasAuthorization }
