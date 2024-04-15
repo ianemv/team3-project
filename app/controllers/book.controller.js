@@ -4,8 +4,8 @@ import Borrowing from '../models/borrowings.model.js';
 const createBook = async (req, res) => {
     try {
 		console.log(req.body);
-        const { title, author, ISBN, genre, publication_year, quantity_available } = req.body;
-        const book = new Book({ title, author, ISBN, genre, publication_year, quantity_available });
+        const { title, author, ISBN, genre, publication_year, quantity_available, status, available, bookImageUrl } = req.body;
+        const book = new Book({ title, author, ISBN, genre, publication_year, quantity_available, status, available, bookImageUrl });
         const savedBook = await book.save();
         res.status(201).json(savedBook);
     } catch (error) {
@@ -84,12 +84,13 @@ const deleteBook = async (req, res) => {
 const searchBooksByGenre = async (req, res) => {
     try {
         const { genre } = req.query;
-        const books = await Book.find({ genre: genre });
+        const books = await Book.find({ genre: { $regex: new RegExp(genre, 'i') } });
         res.json(books);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Search books by keyword
 const searchBooksByKeyword = async (req, res) => {
